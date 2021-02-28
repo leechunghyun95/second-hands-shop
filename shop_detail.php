@@ -71,7 +71,7 @@
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="index.html">Home</a>
+        <a href="index.php">Home</a>
       </li>
       <li class="breadcrumb-item active">SHOP</li>
     </ol>
@@ -81,12 +81,12 @@
       <!-- Sidebar Column -->
       <div class="col-lg-3 mb-4">
         <div class="list-group">
-          <a href="index.html" class="list-group-item">전체</a>
-          <a href="about.html" class="list-group-item">디자이너</a>
-          <a href="services.html" class="list-group-item">상의</a>
-          <a href="contact.html" class="list-group-item">하의</a>
-          <a href="portfolio-1-col.html" class="list-group-item">아우터</a>
-          <a href="portfolio-2-col.html" class="list-group-item">신발</a>
+          <a href="shop.php" class="list-group-item">전체</a>
+          <!-- <a href="about.html" class="list-group-item">디자이너</a> -->
+          <a href="shop.php?category=상의" class="list-group-item">상의</a>
+          <a href="shop.php?category=하의" class="list-group-item">하의</a>
+          <a href="shop.php?category=아우터" class="list-group-item">아우터</a>
+          <a href="shop.php?category=신발" class="list-group-item">신발</a>
         </div>
       </div>
       <!-- Content Column -->
@@ -98,14 +98,18 @@
                     </img>
                   </div>
               </div>
+              <!-- col -->
               <div class="col">
+
+                <!-- container -->
                 <div class="container">
                       <p><?php echo $row[designer] ?></p>
                       <p><?php echo $row[item_name] ?></p>
                       <p>사이즈: <?php echo $row[size] ?></p>
                       <p>색상: <?php echo $row[color] ?></p>
                       <p>상태: <?php echo $row[con] ?></p>
-                      <p>가격 <?php echo $row[price] ?>원</p>
+                      <p>가격: <?php echo $row[price] ?>원</p>
+                      <p>찜한수: <?php echo $row[likes] ?></p>
                       <p>
                           <h5>상세 설명</h5>
                           <?php echo $row[description] ?>
@@ -123,28 +127,48 @@
                         </div>
                     </div>
 
-                    <div class="row mt-3">
-                        <div class="col">
-                            <div class="container">
-                                <!-- 구매요청 버튼 -->
-                                <button type="button" class="btn btn-primary btn-lg">구매요청</button>
+                      <div class="row mt-3">
+                          <div class="col">
+                              <div class="container">
+                                  <!-- 구매요청 버튼 -->
+                                  <button type="button" class="btn btn-primary btn-lg">구매요청</button>
 
-                            </div>
-                        </div>
+                              </div>
+                          </div>
 
-                        <!-- 좋아요 버튼 -->
-                        <div class="col">
-                            <div class="container mt-2">
+                          <!-- 좋아요 버튼 -->
+                          <div class="col">
+                              <div class="container mt-2">
 
-                            <!-- 빈하트 -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                            <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                            </svg>
-                            </div>
-                        </div>
-                    </div>
+                              <!-- 빈하트 -->
+                              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                              <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                              </svg>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="row mt-3">
+                          <div class="col">
+                              <div class="container">
+                                  <!-- 수정 버튼 -->
+                                  <button type="button" class="btn btn-primary btn-lg" onClick="location.href='modify_sell.php?id=<?= $_GET[id] ?>'">수정</button>
+
+                              </div>
+                          </div>
+
+                          <div class="col">
+                              <div class="container">
+                              <!-- 삭제버튼 -->
+                              <button type="button" class="btn btn-primary btn-lg" onClick="location.href='delete_sell.php?id=<?= $_GET[id] ?>'">삭제</button>
+                              </div>
+                          </div>
+                      </div>
                 </div>
+
+              <!-- container -->
               </div>
+              <!-- /col -->
           </div>
 
           <div class="text-center mt-5">
