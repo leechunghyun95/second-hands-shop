@@ -87,11 +87,9 @@
           rows="10" cols="67" required>
 </textarea>
 
-  <div id="in_pw" class="mt-5">
-    <input type="password" name="pw" id="upw"  placeholder="비밀번호" required />  
-  </div>
+  
   <div id="in_lock" class="mt-1">
-    <input type="checkbox" value="1" name="lockpost" /> 해당글을 잠급니다.
+    <input type="checkbox" value="1" name="lockpost" /> 비밀글
   </div>
 
 

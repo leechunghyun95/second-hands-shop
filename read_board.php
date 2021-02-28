@@ -1,5 +1,11 @@
 <?php
     $conn = mysqli_connect("localhost","root","1234","shop");
+	if($_GET[lock_post] == 1){//비밀글 이라면 
+		echo "<script>
+		alert('비밀글 입니다.');
+		location.href='/shop/board.php';</script>";
+		
+	}
 ?>
 <!doctype html>
 <head>
@@ -97,6 +103,113 @@ ul li {
 
 </style>
 
+<style>
+	/* 댓글 */
+.reply_view {
+	width:900px;
+	margin-top:100px; 
+	word-break:break-all;
+}
+.dap_lo {
+	font-size: 14px;
+	padding:10px 0 15px 0;
+	border-bottom: solid 1px gray;
+}
+.dap_to {
+	margin-top:5px;
+}
+.rep_me {
+	font-size:12px;
+}
+.rep_me ul li {
+	float:left;
+	width: 30px;
+}
+.dat_delete {
+	display: none;
+}	
+.dat_edit {
+	display:none;
+}
+.dap_sm {
+	position: absolute;
+	top: 10px;
+}
+.dap_edit_t{
+	width:520px;
+	height:70px;
+	position: absolute;
+	top: 40px;
+}
+.re_mo_bt {
+	position: absolute;
+	top:40px;
+	right: 5px;
+	width: 90px;
+	height: 72px;
+}
+#re_content {
+	width:700px;
+	height: 56px; 
+}
+.dap_ins {
+	margin-top:50px;
+}
+.re_bt {
+	position: absolute;
+	width:100px;
+	height:56px;
+	font-size:16px;
+	margin-left: 10px; 
+}
+#foot_box {
+	height: 50px; 
+}
+</style>
+
+<script>
+function removeCheck() {
+
+if (confirm("정말 삭제하시겠습니까?") == true){    //확인
+
+	//document.removefrm.submit();
+	location.href="reply_delete.php";
+
+}
+}else{   //취소
+
+	return;
+
+	//location.href='/shop/board.php';
+}
+
+}
+</script>
+
+<script>
+// $(document).ready(function(){
+// 	$(".dat_edit_bt").click(function(){
+// 		/* dat_edit_bt클래스 클릭시 동작(댓글 수정) */
+// 			var obj = $(this).closest(".dap_lo").find(".dat_edit");
+// 			obj.dialog({
+// 				modal:true,
+// 				width:650,
+// 				height:200,
+// 				title:"댓글 수정"});
+// 		});
+
+	$(".dat_delete_bt").click(function(){
+		/* dat_delete_bt클래스 클릭시 동작(댓글 삭제) */
+		var obj = $(this).closest(".dap_lo").find(".dat_delete");
+		obj.dialog({
+			modal:true,
+			width:400,
+			title:"댓글 삭제확인"});
+		});
+
+	});
+</script>
+
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
@@ -166,10 +279,64 @@ ul li {
 		<ul>
 			<li><a href="/shop/board.php">[목록으로]</a></li>
 			<li><a href="modify_board.php?idx=<?php echo $board['idx']; ?>">[수정]</a></li>
-			<li><a href="delete.php?idx=<?php echo $board['idx']; ?>">[삭제]</a></li>
+			<li><a href="delete_board.php?idx=<?php echo $board['idx']; ?>" onclick="removeCheck()">[삭제]</a></li>
 		</ul>
 	</div>
 </div>
+
+<!--- 댓글 불러오기 -->
+<div class="reply_view mt-5">
+	<h3>댓글목록</h3>
+		<?php
+			$sql = "select * from reply where con_num= $board[idx] order by idx desc";
+			$result = mysqli_query($conn,$sql);
+			
+			//$sql3 = mq("select * from reply where con_num='".$bno."' order by idx desc");
+			while($reply = mysqli_fetch_array($result)){ 
+		?>
+		<div class="dap_lo">
+			<div><b><?php echo $reply['name'];?></b></div>
+			<div class="dap_to comt_edit"><?php echo nl2br("$reply[content]"); ?></div>
+			<div class="rep_me dap_to"><?php echo $reply['date']; ?></div>
+			<div class="rep_me rep_menu">
+				<!-- <a class="dat_edit_bt" href="#">수정</a> -->
+
+				<!-- 댓글 삭제 -->
+				<a class="dat_delete_bt" href="reply_delete.php?idx=<?=$reply[idx]?> & con_num= <?=$reply[con_num]?>" onclick="removeCheck()">삭제</a>
+			</div>
+			<!-- 댓글 수정 폼 dialog -->
+			<!-- <div class="dat_edit_bt">
+				<form method="post" action="reply_modify_ok.php">
+					<input type="hidden" name="rno" value="<?php echo $reply['idx']; ?>" /><input type="hidden" name="b_no" value="<?php echo $bno; ?>">
+					<input type="password" name="pw" class="dap_sm" placeholder="비밀번호" />
+					<textarea name="content" class="dap_edit_t"><?php echo $reply['content']; ?></textarea>
+					<input type="submit" value="수정하기" class="re_mo_bt">
+				</form>
+			</div> -->
+			<!-- 댓글 삭제 비밀번호 확인 -->
+			<div class='dat_delete'>
+				<form action="reply_delete.php" method="post">
+					<input type="hidden" name="rno" value="<?php echo $reply['idx']; ?>" /><input type="hidden" name="b_no" value="<?php echo $bno; ?>">
+			 		<p>비밀번호<input type="password" name="pw" /> <input type="submit" value="확인"></p>
+				 </form>
+			</div>
+		</div>
+	<?php } ?>
+
+	<!--- 댓글 입력 폼 -->
+	<div class="dap_ins">
+		<form action="reply_ok.php?idx=<?php echo $_GET[idx]; ?>" method="post">
+			
+			<div style="margin-top:10px; ">
+				<textarea name="content" class="reply_content" id="re_content" ></textarea>
+				<button id="rep_bt" class="re_bt">댓글</button>
+			</div>
+		</form>
+	</div>
+</div><!--- 댓글 불러오기 끝 -->
+
     </div>
+
+	
 </body>
 </html>

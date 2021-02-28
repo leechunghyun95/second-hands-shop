@@ -10,18 +10,31 @@ $title = $_POST['title'];
 $content = $_POST['content'];
 $date = date('Y-m-d');
 
+if(isset($_POST['lockpost'])){
+	$lo_post = '1';
+}else{
+	$lo_post = '0';
+}
 
-if($userpw && $title && $content){
+
+if($title && $content){
+
+
+    $sql2 = "alter table board auto_increment=1";
+    mysqli_query($conn,$sql2);
+
+
     $sql = "
     INSERT INTO board
-    (pw,title,content,date,hit)
+    (title,content,date,hit,lock_post)
         VALUES(
-    '".$userpw."','".$title."','".$content."',now(),0
+    '".$title."','".$content."','".$date."',0,$lo_post
         )
     ";
 
-    $result = mysqli_query($conn,$sql);
     
+
+    $result = mysqli_query($conn,$sql);
     
     
     echo "<script>
