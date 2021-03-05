@@ -1,5 +1,7 @@
 <?php
   $conn = mysqli_connect("localhost","root","1234","shop");
+  session_start();//세션 시작
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +90,13 @@ ul li {
 
 <body>
 
-  <!-- Navigation -->
+<?php
+if($_SESSION[is_login]){//로그인 되어 있을때
+//echo "<script>alert('$_SESSION[nickname]님 환영합니다.');</script>";//닉네임과 환영인사를 알림창으로 보여주기
+
+//네비게이션바 로그인 됐을때로 세팅
+?>
+<!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="index.php">Second Hands</a>
@@ -97,23 +105,63 @@ ul li {
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          
+          <li class="nav-item">
+            <a class="nav-link" href="shop.php">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sell.php">Sell</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">내 거래</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">찜한 상품</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sign_in.php">내 정보</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sign_out.php">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="board.php">QnA</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <?php
+
+}
+else{//로그인 되어 있지 않을 때
+  
+  ?>
+<!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.php">Second Hands</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link" href="shop.php">SHOP</a>
+            <a class="nav-link" href="shop.php">Shop</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.php">SELL</a>
+            <a class="nav-link" href="sign_in.php">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="contact.html">LIKES</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">PROFILE</a>
+            <a class="nav-link" href="sign_up.php">회원가입</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+  <?php
+}
+?>
 
   <!-- Page Content -->
   <div class="container">
@@ -125,9 +173,10 @@ ul li {
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="index.html">Home</a>
+        <a href="index.php">Home</a>
       </li>
       <li class="breadcrumb-item active">SHOP</li>
+      <li class="breadcrumb-item active"><?= $_GET[category] ?></li>
     </ol>
 
     <!-- Content Row -->
@@ -135,6 +184,8 @@ ul li {
       <!-- Sidebar Column -->
       <div class="col-lg-3 mb-4">
         <div class="list-group">
+          <h2>카테고리</h2>
+        
           <a href="shop.php" class="list-group-item">전체</a>
           <!-- <a href="shop.php" class="list-group-item">디자이너</a> -->
           <a href="shop.php?category=상의" class="list-group-item">상의</a>
@@ -210,7 +261,7 @@ ul li {
         $result = mysqli_query($conn,$sql);
         while($row = mysqli_fetch_array($result)){
         ?>
-      <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+      <div class="col-lg-4 col-sm-6 portfolio-item">
         <a href="#">
         <div class="card h-100">    
           <a href="shop_detail.php?id=<?= $row[id] ?>"><img class="card-img-top" src="<?php echo "uploads/".$row['photo']; ?>" alt="" width="218.3" height="261.95"></a>
@@ -220,7 +271,9 @@ ul li {
         </p>
             <p class="card-text">
               <p><?=$row['item_name']?></p>
-              <p><?=$row['price']?>원</p>
+              <p><?= number_format($row[price]) ?>원</p>
+
+              
         
           </div>
         </div>

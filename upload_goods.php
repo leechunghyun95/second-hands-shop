@@ -1,5 +1,9 @@
 <?php
 
+session_start();//세션 시작
+
+$seller = $_SESSION[email];
+echo $_SESSION[email];
 
 // 사진 파일명 지정
 $fn = date(YmdHis);
@@ -45,7 +49,7 @@ $conn = mysqli_connect('localhost','root','1234','shop');
 
 $sql = "
   INSERT INTO goods
-    (designer,category,item_name,con,description,price,created,likes,size,color,photo,photo2,photo3,photo4,photo5,photo6,photo7,photo8,photo9)
+    (designer,category,item_name,con,description,price,created,likes,size,color,photo,photo2,photo3,photo4,photo5,photo6,photo7,photo8,photo9,seller)
     VALUES(
         '{$_POST['designer']}',
         '{$_POST['category']}',   
@@ -65,10 +69,12 @@ $sql = "
         $photo6,
         $photo7,
         $photo8,
-        $photo9
+        $photo9,
+        '$seller'
     )
 ";
 
+echo $sql;
 
 echo "designer: ".$_POST['designer']."<br>";
 echo "category: ".$_POST['category']."<br>";
@@ -87,7 +93,8 @@ if($result === false){
     echo '저장하는 과정에서 문제가 생겼습니다. 관리자에게 문의해주세요';
     error_log(mysqli_error($conn));
   } else {
-    echo '성공했습니다. <a href="index.php">돌아가기</a>';
+    echo "<script>alert('상품이 등록되었습니다.'); 
+        location.href='shop.php';</script>";
   }
 
 

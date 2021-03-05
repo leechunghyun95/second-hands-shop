@@ -176,7 +176,7 @@ ul li {
         <tr>
           <td width="70"><?php echo $board['idx']; ?></td>
           <td width="500"><?php 
-        $lockimg = "<img src='http://192.168.111.100/var/www/html/shop/img/lock.png' alt='lock' title='lock' with='20' height='20' />";
+        $lockimg = "<img src='https://www.freeiconspng.com/thumbs/lock-icon/lock-icon-11.png' alt='lock' title='lock' with='20' height='20' />";
         if($board['lock_post']=="1")
           { ?><a href='read_board.php?idx=<?php echo $board["idx"];?> &name=<?= $board[name] ?> &lock_post=<?= $board['lock_post'] ?>'><?php echo $title, $lockimg;
             }else{  ?>

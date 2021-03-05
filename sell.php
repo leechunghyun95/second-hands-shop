@@ -3,6 +3,10 @@
   $sql = "select * from goods order by id desc LIMIT 8";
   $result = mysqli_query($conn,$sql);
   $row = mysqli_fetch_array($result);
+
+  session_start();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +35,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
 
-  <!-- Navigation -->
+<?php
+if($_SESSION[is_login]){//로그인 되어 있을때
+//echo "<script>alert('$_SESSION[nickname]님 환영합니다.');</script>";//닉네임과 환영인사를 알림창으로 보여주기
+
+//네비게이션바 로그인 됐을때로 세팅
+?>
+<!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="index.php">Second Hands</a>
@@ -40,23 +50,66 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          
+          <li class="nav-item">
+            <a class="nav-link" href="shop.php">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sell.php">Sell</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">내 거래</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">찜한 상품</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sign_in.php">내 정보</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sign_out.php">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="board.php">QnA</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <?php
+
+}
+else{//로그인 되어 있지 않을 때
+  
+  ?>
+<!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.php">Second Hands</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link" href="shop.php">SHOP</a>
+            <a class="nav-link" href="shop.php">Shop</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.php">SELL</a>
+            <a class="nav-link" href="sign_in.php">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="contact.html">LIKES</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">PROFILE</a>
+            <a class="nav-link" href="sign_up.php">회원가입</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+  <?php
+}
+?>
+  
+
+
   <!-- Page Content -->
   <div class="container" style="width:50%">
 
@@ -77,13 +130,16 @@
 
 <form action="upload_goods.php" method="post" enctype="multipart/form-data">
 
-    <h5 class="mt-5">디자이너<h5>
-      <select class="form-select" aria-label="Default select example" name="designer" required>
+    <h5 class="mt-5">브랜드<h5>
+      <!-- <select class="form-select" aria-label="Default select example" name="designer" required>
         <option selected>디자이너</option>
         <option value="디자이너1">One</option>
         <option value="디자이너2">Two</option>
         <option value="디자이너3">Three</option>
-      </select>
+      </select> -->
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2" name="designer" required>
+      </div>
 
 
   <h5 class="mt-3">카테고리<h5>
