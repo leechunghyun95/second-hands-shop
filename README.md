@@ -17,3 +17,6 @@
 7. 판매중 목록 보기 / 주문내역 관리
 
 8. 구매하기(결제 api)
+
+시연 영상
+https://cafe.naver.com/teamnovaopen/2675
